@@ -1,6 +1,7 @@
-import {ChangeDetectionStrategy, Component, effect, input, OnDestroy, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, effect, inject, input, OnDestroy, OnInit, signal} from '@angular/core';
 import {io, Socket} from "socket.io-client";
 import SternLogMessage from "../model/stern-log-message";
+import {FiltersService} from "../features/stern/filters.service";
 
 @Component({
   selector: 'app-socket-log-box',
@@ -8,7 +9,7 @@ import SternLogMessage from "../model/stern-log-message";
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
   template: `
-    <div class="overflow-y-scroll h-64" tabindex="0">
+    <div class="overflow-y-scroll h-screen" tabindex="0">
       <ul class="flex flex-col-reverse">
         @for (message of messages(); track message) {
           <li class="badge badge-info h-auto w-auto p-4 mt-2">
@@ -21,6 +22,8 @@ import SternLogMessage from "../model/stern-log-message";
   styles: ``
 })
 export class SocketLogBoxComponent implements OnInit, OnDestroy {
+  filtersService = inject(FiltersService)
+
   deployment = input<string>('')
   messages = signal<SternLogMessage[]>([])
   running = input<boolean>(false)
@@ -32,7 +35,11 @@ export class SocketLogBoxComponent implements OnInit, OnDestroy {
   startLogStream() {
     console.log(this.deployment())
     this.startLogStreamEvent?.off('start_log_stream')
-    this.startLogStreamEvent = this.socket.emit('start_log_stream', { deployment_name: this.deployment() })
+    this.startLogStreamEvent = this.socket.emit(
+      'start_log_stream', {
+        deployment_name: this.deployment(),
+        filters: this.filtersService.getFiltersStringToSendToServer()
+      })
   }
 
   stopLogStream() {
