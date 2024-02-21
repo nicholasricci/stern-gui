@@ -53,8 +53,11 @@ export class SocketLogBoxComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.logStreamEvent = this.socket.on('log_stream', (message: SternLogMessage) => {
-      console.log(message)
-      this.messages.set([message, ...this.messages()])
+      const messagesFiltered = [...this.messages(), message]
+      if (this.messages().length > 30) {
+        messagesFiltered.splice(0, 1)
+      }
+      this.messages.set(messagesFiltered)
     })
   }
 
