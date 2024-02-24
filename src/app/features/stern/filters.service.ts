@@ -11,6 +11,7 @@ export class FiltersService {
   excludePod = signal<string | undefined>('')
   highlight = signal<string | undefined>('')
   include = signal<string | undefined>('')
+  since = signal<string | undefined>('')
 
   changeFilters(filter: string, value: string) {
     switch (filter) {
@@ -34,6 +35,9 @@ export class FiltersService {
         break
       case 'include':
         this.include.set(value)
+        break
+      case 'since':
+        this.since.set(value)
         break
     }
   }
@@ -60,6 +64,9 @@ export class FiltersService {
     }
     if (this.include()) {
       stringFilter += `--include ${this.include()} `
+    }
+    if (this.since()) {
+      stringFilter += `--since ${this.since()} `
     }
     return stringFilter
   }

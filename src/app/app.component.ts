@@ -29,6 +29,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.authService.isUserLoggedIn()
-    this.configsService.getK8sApiServer()
+    this.configsService.loadConfigs()
   }
 }

@@ -73,6 +73,16 @@ import {FiltersService} from "./filters.service";
                    (change)="filterService.changeFilters('include', includeFilter.value)"
             />
           </label>
+          <label class="input input-bordered flex items-center gap-2 w-full">
+            <span class="text-primary">Since</span>
+            <input type="text"
+                   class="grow"
+                   placeholder="since"
+                   #sinceFilter
+                   [value]="filterService.since()"
+                   (change)="filterService.changeFilters('since', sinceFilter.value)"
+            />
+          </label>
           <label class="form-control w-full">
             <div class="label">
               <span class="label-text text-primary">Container state</span>

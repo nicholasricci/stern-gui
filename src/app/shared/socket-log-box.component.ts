@@ -1,4 +1,13 @@
-import {ChangeDetectionStrategy, Component, effect, inject, input, OnDestroy, OnInit, signal} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
 import {io, Socket} from "socket.io-client";
 import SternLogMessage from "../model/stern-log-message";
 import {FiltersService} from "../features/stern/filters.service";
@@ -7,7 +16,6 @@ import {FiltersService} from "../features/stern/filters.service";
   selector: 'app-socket-log-box',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
   template: `
     <div class="overflow-y-scroll h-screen" tabindex="0">
       <ul class="flex flex-col-reverse">
@@ -56,7 +64,6 @@ export class SocketLogBoxComponent implements OnInit, OnDestroy {
       }
     });
   }
-
 
   ngOnInit(): void {
     this.logStreamEvent = this.socket.on('log_stream', (message: SternLogMessage) => {

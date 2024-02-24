@@ -1,22 +1,29 @@
 import {inject, Injectable, signal} from '@angular/core';
-import {LocalStorageService} from "../shared/local-storage.service";
+import {HttpClient} from "@angular/common/http";
+import Configs from "../model/configs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfigsService {
-  localeStorageService = inject(LocalStorageService)
-  k8sApiServer = signal('')
+  http = inject(HttpClient)
+  configs = signal<Configs>({
+    k8sApiServer: ''
+  })
 
-  setK8sApiServer(server: string) {
-    this.k8sApiServer.set(server)
-    this.localeStorageService.setItem('k8sApiServer', server)
+  loadConfigs() {
+    return this.http.get<Configs>('/api/fs/configs')
+      .subscribe((configs: Configs) => {
+        this.setConfigs(configs)
+      })
   }
 
-  getK8sApiServer() {
-    if (this.k8sApiServer() === '') {
-      this.k8sApiServer.set(this.localeStorageService.getItem('k8sApiServer') || '')
-    }
-    return this.k8sApiServer
+  setConfigs(configs: Configs) {
+    this.configs.set(configs)
+  }
+
+  saveConfigs(configs: Configs) {
+    this.setConfigs(configs)
+    return this.http.post<Configs>('/api/fs/configs', configs)
   }
 }
