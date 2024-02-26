@@ -79,7 +79,6 @@ export class SocketLogBoxComponent implements OnInit, OnDestroy {
         return mpart
       })
       const mJoined = m.join(' ')
-      console.log(mJoined)
       const messagesFiltered = [...this.messages(), {data: mJoined}]
       if (this.messages().length > 30) {
         messagesFiltered.splice(0, 1)

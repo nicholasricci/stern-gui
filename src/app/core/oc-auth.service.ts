@@ -12,7 +12,6 @@ export class OcAuthService {
     return this.http.get('/api/oc/current-project')
       .subscribe({
         next: (message) => {
-          console.log('message: ', message)
           this.userLoggedIn.set(true)
         },
         error: (error) => {
@@ -26,7 +25,6 @@ export class OcAuthService {
     this.http.post('/api/oc/login', {email, password, server})
       .subscribe({
         next: (message) => {
-          console.log('message: ', message)
           this.userLoggedIn.set(true)
         },
         error: (error) => {

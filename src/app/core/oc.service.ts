@@ -18,7 +18,6 @@ export class OcService {
     return this.http.get('/api/oc/current-project')
       .subscribe({
         next: (message: any) => {
-          console.log('message: ', message)
           this.currentProject.set(message.current_project)
           this.getDeploymentsList()
         },
@@ -33,7 +32,6 @@ export class OcService {
     return this.http.get('/api/oc/projects')
       .subscribe({
         next: (message: any) => {
-          console.log('message: ', message)
           const projects: string[] = message.projects.map((project: string) => {
             return project.replace('project.project.openshift.io/', '')
           })
@@ -50,7 +48,6 @@ export class OcService {
     this.http.post('/api/oc/change-project', {project})
       .subscribe({
         next: (message) => {
-          console.log('message: ', message)
           this.currentProject.set(project)
           this.getDeploymentsList()
         },
@@ -69,7 +66,6 @@ export class OcService {
     return this.http.get('/api/oc/deployments')
       .subscribe({
         next: (message: any) => {
-          console.log('message: ', message)
           const deployments: string[] = message.deployments.map((deployment: string) => {
             return deployment.replace('deployment.apps/', '')
           })

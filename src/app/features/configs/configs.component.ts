@@ -42,7 +42,6 @@ export default class ConfigsComponent implements OnInit {
   }
 
   saveConfigs() {
-    console.log(this.formGroup.value)
     const configsToSave: Configs = {
       k8sApiServer: this.formGroup.value.k8sServerControl
     }
