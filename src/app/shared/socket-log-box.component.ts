@@ -40,7 +40,7 @@ export class SocketLogBoxComponent implements OnInit, OnDestroy {
   messages = signal<SternLogMessage[]>([])
   running = input<boolean>(false)
 
-  socket = io('http://127.0.0.1:5000')
+  socket = io('/socket.io')
   logStreamEvent: Socket | undefined = undefined
   startLogStreamEvent: Socket | undefined = undefined
 
